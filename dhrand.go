@@ -35,7 +35,7 @@ func NewLockedSource(seed int64) *LockedSource {
 }
 
 // GenSeed generates a seed value using a cryptographically secure random number generator (CSRNG).
-// Generated seed values should only be used to generate a truely random seed for a
+// Generated seed values should only be used to generate a truly random seed for a
 // pseudo random number generator (PRNG), instead of using the program's initialization time.
 // e.g. generated seed values do not make an arbitrary PRNG cryptographically secure.
 func GenSeed() (int64, error) {
