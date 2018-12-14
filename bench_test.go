@@ -39,7 +39,8 @@ func BenchmarkModule(b *testing.B) {
 		buf := make([]byte, s)
 		b.Run(strconv.Itoa(s), func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
-				rand.Read(buf) // Safe to run in goroutines
+				// Safe to run in goroutines
+				rand.Read(buf) // nolint:gosec
 			}
 		})
 	}
