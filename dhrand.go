@@ -6,6 +6,8 @@ import (
 	"math/big"
 	"math/rand"
 	"sync"
+
+	erand "golang.org/x/exp/rand"
 )
 
 // LockedSource implements the rand.Source interface but is safe for usage with goroutines.
@@ -29,9 +31,26 @@ func (ls *LockedSource) Seed(seed int64) {
 	ls.src.Seed(seed)
 }
 
+type compatSrc struct {
+	erand.Source
+}
+
+func (s *compatSrc) Int63() int64 {
+	return int64(s.Uint64())
+}
+
+func (s *compatSrc) Seed(seed int64) {
+	s.Source.Seed(uint64(seed))
+}
+
 // NewLockedSource creates a new LockedSource
 func NewLockedSource(seed int64) *LockedSource {
-	return &LockedSource{src: rand.NewSource(seed)}
+	return NewLockedSourceFromSource(&compatSrc{erand.NewSource(uint64(seed))})
+}
+
+// NewLockedSourceFromSource wraps an existing source
+func NewLockedSourceFromSource(src rand.Source) *LockedSource {
+	return &LockedSource{src: src}
 }
 
 // GenSeed generates a seed value using a cryptographically secure random number generator (CSRNG).
