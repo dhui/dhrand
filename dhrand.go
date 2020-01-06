@@ -34,12 +34,17 @@ func NewLockedSource(seed int64) *LockedSource {
 	return &LockedSource{src: rand.NewSource(seed)}
 }
 
+var (
+	cryptoRandReader = crand.Reader
+	maxInt           = big.NewInt(math.MaxInt64)
+)
+
 // GenSeed generates a seed value using a cryptographically secure random number generator (CSRNG).
 // Generated seed values should only be used to generate a truly random seed for a
 // pseudo random number generator (PRNG), instead of using the program's initialization time.
 // e.g. generated seed values do not make an arbitrary PRNG cryptographically secure.
 func GenSeed() (int64, error) {
-	seed, err := crand.Int(crand.Reader, big.NewInt(math.MaxInt64))
+	seed, err := crand.Int(cryptoRandReader, maxInt)
 	if err != nil {
 		return 0, err
 	}
