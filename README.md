@@ -3,6 +3,7 @@
 > [!WARNING]
 > DEPRECATED - this package is deprecated
 > Use crypto/rand or math/rand/v2 instead
+> 
 > See:
 > * https://go.dev/doc/go1.20#mathrandpkgmathrand
 > * https://go.dev/blog/randv2
