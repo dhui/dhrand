@@ -1,3 +1,4 @@
+// Deprecated: Use crypto/rand or math/rand/v2 instead.
 package dhrand
 
 import (
